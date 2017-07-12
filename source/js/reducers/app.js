@@ -1,47 +1,45 @@
-import { Map } from 'immutable';
+//import { Map } from 'immutable';
 
 import {
-  TEST_ACTION,
   TEST_ASYNC_ACTION_START,
   TEST_ASYNC_ACTION_ERROR,
   TEST_ASYNC_ACTION_SUCCESS,
+  TEST_INITIAL_ACTION_SUCCESS
 } from 'actions/app';
 
-const initialState = Map({
-  counter: 0,
+const initialState = {
   asyncLoading: false,
   asyncError: null,
   asyncData: null,
-});
+  initialData: null
+};
 
 const actionsMap = {
-  [TEST_ACTION]: (state) => {
-    const counter = state.get('counter') + 1;
-
-    return state.merge({
-      counter,
-    });
-  },
-
   // Async action
   [TEST_ASYNC_ACTION_START]: (state) => {
-    return state.merge({
+    return { ...state,
       asyncLoading: true,
       asyncError: null,
-    });
+    };
   },
   [TEST_ASYNC_ACTION_ERROR]: (state, action) => {
-    return state.merge({
+    return { ...state,
       asyncLoading: false,
       asyncError: action.data,
-    });
+    };
   },
   [TEST_ASYNC_ACTION_SUCCESS]: (state, action) => {
-    return state.merge({
+    return { ...state,
       asyncLoading: false,
       asyncData: action.data,
-    });
+    };
   },
+  [TEST_INITIAL_ACTION_SUCCESS] : (state, action) => {
+      return {...state,
+        asyncLoading:false,
+        initialData: action.data
+      }
+    }
 };
 
 export default function reducer(state = initialState, action = {}) {
