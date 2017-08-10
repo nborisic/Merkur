@@ -1,54 +1,93 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {fetchResults} from '../../actions/app';
-import _ from 'lodash';
 import PreviewComponent from '../../components/previewcomponent';
 import SingleResult from '../../components/single_result';
-import { initialResults } from '../../actions/app'; 
+import { initialResults, fetchResults, quickSearch } from '../../actions/app';
 
 @connect(state => ({
-	initialData: state.app.initialData,
- 	 asyncData: state.app.asyncData,
- 	 asyncError: state.app.asyncError,
- 	 asyncLoading: state.app.asyncLoading,
+  initialData: state.app.initialData,
+  asyncData: state.app.asyncData,
+  asyncError: state.app.asyncError,
+  asyncLoading: state.app.asyncLoading,
+  quickSearchData: state.app.quickSearch,
 }))
 export default class DetailView extends Component {
-	 static propTypes = {
+  static propTypes = {
+    initialData: PropTypes.object,
     asyncData: PropTypes.object,
     asyncError: PropTypes.object,
+    quickSearchData: PropTypes.object,
     asyncLoading: PropTypes.bool,
-    // from react-redux connect
+    params: PropTypes.object,
     dispatch: PropTypes.func,
   }
+  constructor() {
+    super();
 
-  componentWillMount(){
-  	const { dispatch } = this.props;
-  	if(Object.keys(this.props.params).length==1){
-  	  	if(!this.props.initialData) dispatch(initialResults());
-  	  	}
-  	else {
-  		if(!this.props.asyncData) dispatch(fetchResults(this.props.params));
-  	}
+    this.state = {
+      data: {},
+    };
   }
 
-	render (){
-		const {
-	      asyncData,
-	      asyncError,
-	      asyncLoading,
-	      initialData
-    	} = this.props;
-    	if( !asyncData && !initialData ) return (<div> <p>Učitava se stranica...</p></div>);
-    	const data =Object.keys(this.props.params).length==1?initialData:asyncData;
+  componentWillMount() {
+    const { dispatch } = this.props;
+    const {
+      asyncData,
+      initialData,
+      quickSearchData,
+    } = this.props;
+    switch (Object.keys(this.props.params)[0]) {
+      case 'id': {
+        if (!this.props.initialData) dispatch(initialResults());
+        this.setState({ data: initialData });
+        break;
+      }
+      case 'quickParameter': {
+        let searchTerm = '';
+        if (!this.props.quickSearchData) {
+          searchTerm = this.props.params[Object.keys(this.props.params)[0]];
+          if (!this.props.quickSearchData) {
+            dispatch(quickSearch(searchTerm));
+          }
+        }
+        this.setState({ data: quickSearchData });
+        break;
+      }
+      default: {
+        if (!this.props.asyncData) dispatch(fetchResults(this.props.params));
+        this.setState({ data: asyncData });
+      }
+    }
+  }
 
-		return(
-		<div>
-				<SingleResult url= {this.props.params} data={data} />
-				<div className='col-sm-12'>
-				<PreviewComponent url= {this.props.params} data={data}/>
-				</div>
-		</div>
-	
-	);}
+  componentWillReceiveProps(nextProps) {
+    switch (Object.keys(this.props.params)[0]) {
+      case 'id': {
+        this.setState({ data: nextProps.initialData });
+        break;
+      }
+      case 'quickParameter': {
+        this.setState({ data: nextProps.quickSearchData });
+        break;
+      }
+      default: {
+        this.setState({ data: nextProps.asyncData });
+      }
+    }
+  }
+
+  render() {
+    if (!this.state.data) {
+      return (<div> <p>Učitava se stranica...</p></div>);
+    }
+    return (
+      <div>
+        <SingleResult url={ this.props.params } data={ this.state.data } />
+        <div className='col-sm-12'>
+          <PreviewComponent url={ this.props.params } data={ this.state.data } />
+        </div>
+      </div>
+    );
+  }
 }
