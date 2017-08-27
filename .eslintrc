@@ -41,7 +41,11 @@ rules:
     "exports": "always-multiline",
     "functions": "never"
   }]
+  no-continue: 0
+  max-len: ["error", 180]
+  default-case: 0
   jsx-quotes: [2, "prefer-single"]
+  react/require-default-props: 0
   react/forbid-prop-types: 0
   react/jsx-curly-spacing: [2, "always"]
   react/jsx-filename-extension: 0

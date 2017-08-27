@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import Carousel from './carousel';
 
 export default class SingleResult extends Component {
@@ -16,36 +15,28 @@ export default class SingleResult extends Component {
 
   renderComponent(result) {
     if (this.props.url.id === result.sys.id) {
+      const createdDate = result.fields.createdDate.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3.$2.$1');
+      const price = result.fields.price.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
       return (
-        <div key={ result.sys.id }>
-          <div className='col col-sm-9' >
-            <div>
-              <span className=''>{result.fields.title}</span>
-              <span className='pull-right'>{result.fields.price.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')} €</span>
-            </div>
-            <div className=''>
-              { result.fields.address }
-            </div>
-            <div>
-              <Carousel pics={ result.fields.images } />
-            </div>
-            <div className='flex-container'>
-              <div>
-                <span className='item'> Datum objave: </span>
-                <span className='item'>{result.fields.createdDate.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3.$2.$1')}</span>
+        <div key={ result.sys.id } className='pgl-bg-light'>
+          <Carousel pics={ result.fields.images } price={ price } adType={ result.fields.adType } />
+          <div className='pgl-detail'>
+            <div className='row'>
+              <div className='col-sm-4'>
+                <ul className='list-unstyled amenities amenities-detail'>
+                  <li><strong>Tip objekta:</strong> {result.fields.realtyType}</li>
+                  <li><strong>Površina:</strong> {result.fields.surfaceArea} m²</li>
+                  <li><i className='icons icon-price' /> {price} €</li>
+                  <li><address><i className='icons icon-location' /> { result.fields.address }</address></li>
+                  <li><i className='icons icon-bedroom' /> {result.fields.structure}</li>
+                  <li><strong>Datum objave:</strong> {createdDate}&nbsp;god.</li>
+                </ul>
               </div>
-              <div>
-                <span className='item'> Površina: </span>
-                <span className='item'>{result.fields.surfaceArea} m²</span>
-              </div>
-              <div>
-                <span className='item'> Cena: </span>
-                <span className='item'>{result.fields.price.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')} €</span>
+              <div className='col-sm-8'>
+                <h2>{result.fields.title}</h2>
+                <p>{result.fields.description}</p>
               </div>
             </div>
-          </div>
-          <div className='col col-sm-3'>
-            {result.fields.description}
           </div>
         </div>
       );
@@ -54,7 +45,7 @@ export default class SingleResult extends Component {
   render() {
     return (
       <div>
-        { _.map(this.props.data.items, this.renderComponent) }
+        { this.props.data.items.map(this.renderComponent) }
       </div>
     );
   }

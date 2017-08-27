@@ -3,7 +3,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import PreviewComponent from '../../components/previewcomponent';
 import SingleResult from '../../components/single_result';
-import { initialResults, fetchResults, quickSearch } from '../../actions/app';
+import { initialResults, fetchResults, quickSearch, fetchFormParameters } from '../../actions/app';
+import ControledForm from '../../components/form';
+
+
+const style = {
+  sm: 'col-sm-12',
+  xs: 'col-xs-6',
+};
+
 
 @connect(state => ({
   initialData: state.app.initialData,
@@ -11,14 +19,14 @@ import { initialResults, fetchResults, quickSearch } from '../../actions/app';
   asyncError: state.app.asyncError,
   asyncLoading: state.app.asyncLoading,
   quickSearchData: state.app.quickSearch,
+  formParameters: state.app.formParameters,
 }))
 export default class DetailView extends Component {
   static propTypes = {
     initialData: PropTypes.object,
     asyncData: PropTypes.object,
-    asyncError: PropTypes.object,
     quickSearchData: PropTypes.object,
-    asyncLoading: PropTypes.bool,
+    formParameters: PropTypes.object,
     params: PropTypes.object,
     dispatch: PropTypes.func,
   }
@@ -37,6 +45,7 @@ export default class DetailView extends Component {
       initialData,
       quickSearchData,
     } = this.props;
+    if (!this.props.formParameters) dispatch(fetchFormParameters());
     switch (Object.keys(this.props.params)[0]) {
       case 'id': {
         if (!this.props.initialData) dispatch(initialResults());
@@ -60,7 +69,9 @@ export default class DetailView extends Component {
       }
     }
   }
-
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
   componentWillReceiveProps(nextProps) {
     switch (Object.keys(this.props.params)[0]) {
       case 'id': {
@@ -76,14 +87,24 @@ export default class DetailView extends Component {
       }
     }
   }
-
+  componentDidUpdate() {
+    window.scrollTo(0, 0);
+  }
   render() {
     if (!this.state.data) {
       return (<div> <p>Učitava se stranica...</p></div>);
     }
+    const {
+      formParameters,
+    } = this.props;
     return (
-      <div>
-        <SingleResult url={ this.props.params } data={ this.state.data } />
+      <div id='detail' className='container'>
+        <div className='col col-sm-9' >
+          <SingleResult url={ this.props.params } data={ this.state.data } />
+        </div>
+        <div className='col col-sm-3'>
+          <ControledForm data={ formParameters } style={ style } />
+        </div>
         <div className='col-sm-12'>
           <PreviewComponent url={ this.props.params } data={ this.state.data } />
         </div>

@@ -57,13 +57,13 @@ const client = contentful.createClient({
 export function fetchResults(URLparams) {
   return function (dispatch) {
     dispatch(testAsyncStart());
-    let { Category, structure, Area, Service, priceFrom, priceTo, areaFrom, areaTo } = URLparams;
-    const { City } = URLparams;
-    if (Category === 'Sve_Kategorije') Category = '';
+    let { category, structure, area, service, priceFrom, priceTo, areaFrom, areaTo } = URLparams;
+    const { city } = URLparams;
+    if (category === 'Sve_Kategorije') category = '';
     structure = structure === 'Sve_strukture' ? '' : structure.replace(/_/g, '.');
-    if (Category !== 'Stan') structure = '';
-    Area = Area.replace(/-/g, ',').replace(/_/g, ' ');
-    Service = Service.replace(/-/g, ',');
+    if (category !== 'Stan') structure = '';
+    area = area.replace(/-/g, ',').replace(/_/g, ' ');
+    service = service.replace(/-/g, ',');
     [areaFrom, priceFrom] = [areaFrom, priceFrom].map((term) => {
       return term === 'NA' ? term = '0' : term;
     }
@@ -79,7 +79,7 @@ export function fetchResults(URLparams) {
     };
     client.getEntries({
       content_type: 'area',
-      'fields.name[in]': Area,
+      'fields.name[in]': area,
     })
       .then((entrys) => {
         let areaId = '';
@@ -89,14 +89,14 @@ export function fetchResults(URLparams) {
         client.getEntries({
           include: 1,
           content_type: 'realty',
-          'fields.realtyType': Category,
-          'fields.adType[in]': Service,
+          'fields.realtyType': category,
+          'fields.adType[in]': service,
           'fields.surfaceArea[gte]': areaFrom,
           'fields.surfaceArea[lte]': areaTo,
           'fields.price[gte]': priceFrom,
           'fields.price[lte]': priceTo,
           'fields.area.sys.id[in]': areaId,
-          'fields.city.sys.id': cityId[City],
+          'fields.city.sys.id': cityId[city],
           'fields.structure': structure,
         })
       .then((data) => dispatch(testAsyncSuccess(data)))

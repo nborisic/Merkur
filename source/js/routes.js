@@ -9,7 +9,7 @@ import DetailView from 'views/DetailView';
 const publicPath = '/';
 const quickSearch = '/:quickParameter';
 const quickSearchItem = `${ quickSearch }/:id`;
-const searchPath = '/:Category/:structure/:Service/:City/:Area/:priceFrom/:priceTo/:areaFrom/:areaTo';
+const searchPath = '/:category/:structure/:service/:city/:area/:priceFrom/:priceTo/:areaFrom/:areaTo';
 const item = `${ searchPath }/:id`;
 const newEntrys = '/Novo_u_ponudi/:id';
 

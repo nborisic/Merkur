@@ -4,9 +4,13 @@ import PropTypes from 'prop-types';
 import Slider from '../../components/slider';
 import ControledForm from '../../components/form';
 import { initialResults, fetchFormParameters } from '../../actions/app';
-import Mail from '../../components/mail';
 import QuickSearch from '../../components/quick_search';
 
+
+const style = {
+  sm: 'col-sm-3',
+  xs: 'col-xs-6',
+};
 @connect(state => ({
   initialData: state.app.initialData,
   asyncError: state.app.asyncError,
@@ -17,8 +21,6 @@ export default class startingPage extends Component {
   static propTypes = {
     initialData: PropTypes.object,
     formParameters: PropTypes.object,
-    asyncError: PropTypes.object,
-    asyncLoading: PropTypes.bool,
     dispatch: PropTypes.func,
   }
 
@@ -28,30 +30,82 @@ export default class startingPage extends Component {
     if (!this.props.formParameters) dispatch(fetchFormParameters());
   }
 
-
   render() {
     const { initialData, formParameters } = this.props;
     return (
       <div id='Pocetna'>
-        <div className='col-sm-12'>
-          <ControledForm data={ formParameters } />
+        <img src='../../assets/img/V2a.jpg' alt='' />
+        <div className='pgl-bg-light'>
+          <div className='container'>
+            <ControledForm data={ formParameters } style={ style } />
+          </div>
         </div>
-        <div className='col-sm-12'>
-          <QuickSearch />
-        </div>
-        <div className='col-sm-12'>
+        <QuickSearch />
+        <div id='Novo-u-ponudi' className='col-sm-12'>
           <Slider data={ initialData } />
         </div>
-        <div className='Slider col-sm-12' >
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris rhoncus condimentum nunc eu rhoncus. Cras malesuada felis sed lectus egestas, sed faucibus mi blandit. Curabitur facilisis, diam vitae letius aliquet, tortor nulla efficitur enim, quis pretium diam orci nec est. Proin ultrices nibh ut cursus elementum. Quisque at rutrum mauris, eleifend finibus augue. Nam eget mi et magna euismod accumsan non in nunc. Suspendisse venenatis sodales ex sit amet elementum. Quisque lacinia ex ante, id scelerisque sapien auctor eu. Duis fermentum, justo tristique ultricies porttitor, tortor est elementum erat, eget vulputate purus nibh non nisl. In a maximus massa, a interdum tellus. Aliquam erat volutpat. Maecenas sed ultricies quam.
+        <div id='O-nama' className='col-sm-12' >
+          <section className='pgl-offer'>
+            <div className='container'>
+              <h2>O nama</h2>
+              <div className='row'>
+                <div className='col-sm-4'>
+                  <div className='offer-item pgl-bg-light'>
+                    <div className='offer-item-inner'>
+                      <p><i className='icons icon-calendar' /></p>
+                      <h3>Preko dve decenije u poslu!</h3>
+                      <p>Agencija za promet nepokretnosti Merkur započela je sa radom 1994. godine. Sedište Agencije se nalazi u Kraljevu.</p>
+                    </div>
+                  </div>
+                </div>
+                <div className='col-sm-4'>
+                  <div className='offer-item pgl-bg-light'>
+                    <div className='offer-item-inner'>
+                      <p><i className='icons icon-efficiency' /></p>
+                      <h3>Težak posao prepustite nama!</h3>
+                      <p>U saradnji sa bankama pružamo kompletnu uslugu. Proveravamo legalnost nekretnina, obezbeđujemo pravnu sigurnost.</p>
+                    </div>
+                  </div>
+                </div>
+                <div className='col-sm-4'>
+                  <div className='offer-item pgl-bg-light'>
+                    <div className='offer-item-inner'>
+                      <p><i className='icons icon-justice' /></p>
+                      <h3>Nudimo i pravne usluge</h3>
+                      <p>U okviru prostorija Agencije Merkur nalazi se i posebna kancelarija koju vodi advokat Zorica Dobrosavljević.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
-          <div id='ONama' className='ONama col-sm-12'></div>
-        <div id='Staradimo' className='Staradimo col-sm-12'>
-Nullam semper eu dui sit amet vulputate. Aenean sollicitudin consequat tellus, bibendum ultrices erat facilisis et. Nulla ultrices arcu non justo condimentum pharetra. Sed ullamcorper eros risus, quis ultricies urna pulvinar at. Donec a elementum nisi. Donec quis posuere turpis, eu volutpat felis. In sit amet aliquam turpis. Sed tincidunt maximus elementum. Curabitur risus erat, molestie sit amet diam in, vulputate dictum nibh. Mauris hendrerit sapien nec mollis sagittis. Phasellus cursus dolor vehicula tortor dignissim, posuere volutpat nunc viverra. Suspendisse mattis tortor in consequat molestie.
-</div>
-        <div id='Kontakt' className='Kontakt col-sm-12'>
-          <Mail />
+        <div id='Sta-radimo' className='col-sm-12'>
+          <div className='pgl-bg-light' >
+            <div className='container'>
+              Agencija MERKUR svojom delatnošću u posredovanju u prometu nepokretnosti, pruža maksimalnu pravnu zaštitu i stoji Vam na raspolaganju ako Vam je potrebno:
+            </div>
+          </div>
+          <div className='container'>
+            <div className='col-sm-6'>
+              <ul>
+                <li>Stručna pomoć u realizaciji kupovine i prodaje nepokretnosti</li>
+                <li>Proceni vrednosti nekretnine</li>
+                <li>Oglašavanje nekretnine u dnevnoj štampi, na internetu i na svom sajtu</li>
+                <li>Pregled dokumentaciju i pružiti advokatske usluge i savete u pogledu upisa prava svojine u javne knjige i katastar nepokretnosti</li>
+                <li>Prezentirati nepokretnost, dovesti potencijalnog kupca</li>
+              </ul>
+            </div>
+            <div className='col-sm-6'>
+              <ul>
+                <li>U skladu sa Vašim željama i potrebama, pronaći adekvatnu nepokretnost i omogućiti njihovog razgledanje</li>
+                <li>Pružiti Vam pomoć pri odlučivanju o stambenom kreditu s obzirom da sarađujemo sa velikim brojem banaka i pomažemo u prikupljanju potrebnu dokumentacije vezane za nepokretnost za koju se odobrava stambeni kredit</li>
+                <li>Sačinjavamo kupoprodajni ugovor i pružamo pomoć u pogledu dalje realizacije (oslobađanja poreza na prenos apsolutnih prava –potrebna dokumentacija, povraćaj PDV-a, uknjižba nepokretnosti)</li>
+              </ul>
+            </div>
+          </div>
         </div>
+      
       </div>
     );
   }
