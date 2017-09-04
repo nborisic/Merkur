@@ -11,7 +11,7 @@ export default class SingleComponent extends Component {
     const result = this.props.data;
     return (
       <Link to={ `${ this.props.route }/${ result.sys.id }` } key={ result.sys.id } >
-        <div className='col-md-12 animation'>
+        <div className='animation'>
           <div className='pgl-property'>
             <div className='property-thumb-info'>
               <div className='equalizer'>
@@ -24,7 +24,7 @@ export default class SingleComponent extends Component {
                 </div>
                 <div className='property-thumb-info-content'>
                   <h3>{result.fields.title}</h3>
-                  <address>{result.fields.address}</address>
+                  <address>{result.fields.area.fields.name}</address>
                 </div>
               </div>
               <div className='amenities clearfix'>

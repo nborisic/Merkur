@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ScrollManager from 'scroll-manager';
 import Navbar from '../../components/navbar';
 import GoogleMap from '../../components/google_map';
 import Mail from '../../components/mail';
 
-/* global $ */
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.object,
@@ -16,7 +16,18 @@ export default class App extends Component {
 
   listenEvents(e) {
     const { name } = e.target;
-    setTimeout(() => { $('html, body').animate({ scrollTop: $(`#${ name }`).offset().top - 120 }, 500); }, 500);
+    setTimeout(() => {
+      const offset = document.getElementById(name);
+      const options = {
+        duration: 0.35,
+        to: offset.offsetTop - 140,
+        element: document.body,
+        ease: 'eeaseInOutCubic',
+      };
+      const scroller = new ScrollManager();
+      scroller.scrollTo(options);
+    }, 500
+    );
   }
 
   render() {
@@ -29,7 +40,7 @@ export default class App extends Component {
         <div id='Kontakt' name='kontakt' className='col-sm-12 pgl-bg-light'>
           <div className='container'>
             <div className='row'>
-              <div className='col-sm-4'>
+              <div className='col-sm-5'>
                 <h2>kontakt</h2>
                 <p><span className='glyphicon glyphicon-earphone' />&nbsp; (+381) 036 333 668</p>
                 <p><span className='glyphicon glyphicon-earphone' />&nbsp; (+381) 063 7703 523</p>
@@ -37,7 +48,7 @@ export default class App extends Component {
                 <p><span className='glyphicon glyphicon-envelope' />&nbsp; nekretninemerkur@open.telekom.rs</p>
                 <p><span className='glyphicon glyphicon-home' />&nbsp; Tomislava Andrića Džigija 45, 36000 Kraljevo</p>
               </div>
-              <div className='col-sm-4 col-sm-offset-4'>
+              <div className='col-sm-4 col-sm-offset-3'>
                 <Mail />
               </div>
             </div>

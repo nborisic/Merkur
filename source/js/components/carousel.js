@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Slider from 'react-slick';
+import { SampleNextArrow, SamplePrevArrow } from './arrows';
 
+export default class Carousel extends Component {
+  static propTypes = {
+    pics: PropTypes.array.isRequired,
+    price: PropTypes.string,
+    adType: PropTypes.string,
+  }
 
-/* global $ */
+  componentDidMount() {
+    setTimeout(() => { this.carouselNormalization(); }, 1);
+  }
 
-
-function carouselNormalization() {
-  const items = document.getElementById('myCarousel').getElementsByClassName('item');
-  const heights = [];
-  let tallest = '';
-  const skippedItems = [];
-
-  if (items.length) {
+  componentDidUpdate() {
+    setTimeout(() => { this.carouselNormalization(); }, 1);
+  }
+  carouselNormalization() {
+    const items = document.getElementsByClassName('imgItems');
+    const heights = [];
+    let tallest = '';
+    const skippedItems = [];
     function normalizeHeights() {
       const containerWidth = items[0].clientWidth;
       for (let i = 0; i < items.length; i++) {
@@ -48,97 +58,56 @@ function carouselNormalization() {
         }
       }
     }
-    normalizeHeights();
 
-    window.addEventListener('resize', () => {
-      let resizeTimeout = null;
-      if (!resizeTimeout) {
-        resizeTimeout = setTimeout(() => {
-          resizeTimeout = null;
-          function resizeImg() {
-            tallest = 0;
-            heights.length = 0;
-            for (let i = 0; i < items.length; i++) {
-              items[i].style.minHeight = 0;
+    if (items.length) {
+      normalizeHeights();
+
+      window.addEventListener('resize', () => {
+        let resizeTimeout = null;
+        if (!resizeTimeout) {
+          resizeTimeout = setTimeout(() => {
+            resizeTimeout = null;
+            function resizeImg() {
+              tallest = 0;
+              heights.length = 0;
+              for (let i = 0; i < items.length; i++) {
+                items[i].style.minHeight = 0;
+              }
+              normalizeHeights();
             }
-            normalizeHeights();
-          }
-          resizeImg();
-        }, 100);
-      }
-    }, true);
+            resizeImg();
+          }, 100);
+        }
+      }, true);
+    }
   }
-}
-
-export default class Carousel extends Component {
-  static propTypes = {
-    pics: PropTypes.array.isRequired,
-    price: PropTypes.string,
-    adType: PropTypes.string,
-  }
-  constructor() {
-    super();
-    this.addStyles = this.addStyles.bind(this);
-  }
-  componentDidMount() {
-    this.addStyles();
-  }
-  componentDidUpdate() {
-    this.addStyles();
-  }
-
-  addStyles() {
-    const items = document.getElementById('myCarousel');
-    window.requestAnimationFrame(() => {
-      if (items) {
-        carouselNormalization();
-      }
-    });
-  }
-
   render() {
     const { pics, price, adType } = this.props;
-    $(document).ready(() => {
-      $('#myCarousel').carousel({
-        pause: true,
-        interval: false,
-      });
-    });
-    this.addStyles();
-
-
+    const settings = {
+      autoplay: true,
+      autoplaySpeed: 5000,
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      nextArrow: <SampleNextArrow onClick={ this.next } position='slick-next-carousel' />,
+      prevArrow: <SamplePrevArrow onClick={ this.prev } position='slick-prev-carousel' />,
+    };
     return (
-      <div id='myCarousel' className='carousel slide' data-ride='carousel' >
-        <ol className='carousel-indicators'>
-          {pics.map((item, i) => {
-            return (
-              <li data-target='#myCarousel' data-slide-to={ i } className={ i === 0 ? 'active' : '' } key={ item.sys.id } />
-            );
-          })}
-        </ol>
-        <div className='carousel-inner'>
-          { pics.map((item, i) => {
-            const ClassName = `item ${ i === 0 ? 'active' : '' }`;
-            return (
-              <div className={ ClassName } key={ item.sys.id }>
-                <img src={ item.fields.file.url } alt={ item.fields.file.details.fileName } />
-                <span className='property-thumb-info-label'>
-                  <span className='label price'> { price } €</span>
-                  <span className='label forrent'> { adType } </span>
-                </span>
-                <div className='pull-right'>
-                  <div className='margin'>
-                    <a role='button' data-slide='prev' href='#myCarousel' ><div className='carousel-div-left' /></a>
-                  </div>
-                  <div className='margin'>
-                    <a role='button' data-slide='next' href='#myCarousel'><div className='carousel-div-right' /></a>
-                  </div>
-                </div>
-              </div>
-            );
-          }
-            ) }
-        </div>
-      </div>);
+      <Slider id='myCarousel' ref={ c => this.slider = c } { ...settings }>
+        { pics.map((item) => {
+          return (
+            <div key={ item.sys.id } className='col-sm-12 imgItems' >
+              <img src={ item.fields.file.url } alt='' />
+              <span className='property-thumb-info-label'>
+                <span className='label price'> { price } €</span>
+                <span className='label forrent'> { adType } </span>
+              </span>
+            </div>);
+        })
+        }
+      </Slider>
+    );
   }
 }

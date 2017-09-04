@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import Logo from '../../assets/img/logo.png';
+import Logo from '../../assets/img/logo4.png';
 
 export default class Navbar extends Component {
   static propTypes = {

@@ -5,6 +5,7 @@ export const StyledSelect = styled(Select)`
 .Select-control {
     border-radius: 0px;
     font-size: 1.6rem;
+    
   }
  .Select-arrow-zone {
     padding: 0px;
@@ -12,6 +13,7 @@ export const StyledSelect = styled(Select)`
   }
   .Select-option {
     font-size: 1.6rem;
+
   }
   .Select-option.is-focused {
   background-color: #6f6072;
@@ -33,6 +35,7 @@ export const StyledSelect = styled(Select)`
 export const StyledMultiSelect = styled(Select)`
   .Select-control {
     border-radius: 0px;
+    font-size: 1.6rem;
   }
   &.Select--multi  {
     .Select-value-icon:hover{
@@ -40,7 +43,6 @@ export const StyledMultiSelect = styled(Select)`
       color: #dbd7dc;
     }
     .Select-value {
-      display: inline-flex;
       align-items: center;
       background-color: #4C3950;
       color: #fff;

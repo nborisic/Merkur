@@ -1,64 +1,59 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
-import CarouselSwipe from 'bootstrap-carousel-swipe';
 import PropTypes from 'prop-types';
+import Slider from 'react-slick';
 import SingleComponent from './single_prewiev';
+import { SampleNextArrow, SamplePrevArrow } from './arrows';
 
-
-/* global $ */
-export default class Slider extends Component {
+export default class SliderComponent extends Component {
   static propTypes = {
     data: PropTypes.object,
   }
 
   constructor() {
     super();
-    this.renderField = this.renderField.bind(this);
+    this.next = this.next.bind(this);
+    this.prev = this.prev.bind(this);
   }
 
-  renderField(result, i) {
-    const ClassName = `item ${ i === 0 ? 'active' : '' }`;
-    const route = '/Novo_u_ponudi';
-
-
-    return (
-      <div className={ ClassName } key={ i }>
-        <div className='row'>
-          { result.map((item) => <div className='col-sm-4' key={ item.sys.id }><SingleComponent data={ item } route={ route } /></div>)}
-        </div>
-      </div>
-    );
+  next() {
+    this.slider.slickNext();
+  }
+  prev() {
+    this.slider.slickPrev();
   }
 
   render() {
     if (!this.props.data) return (<div> <p>Loading...</p></div>);
+    const settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 3,
+      slidesToScroll: 3,
+      nextArrow: <SampleNextArrow onClick={ this.next } position='slick-next-slider' />,
+      prevArrow: <SamplePrevArrow onClick={ this.prev } position='slick-prev-slider' />,
+      responsive: [{
+        breakpoint: 991,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      }, {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      }],
+    };
+    const route = '/Novo_u_ponudi';
 
-    $(document).ready(() => {
-      $('#media').carousel({
-        pause: true,
-        interval: false,
-      });
-    });
-    let { items } = this.props.data;
-    items = _.chunk(items, 3);
+    const { items } = this.props.data;
     return (
       <div className='container'>
-        <div className='row'>
-          <h2 className='pull-left'>Novo u ponudi</h2>
-          <div className='pull-right'>
-            <div className='margin'>
-              <a data-slide='prev' href='#media' ><div className='carousel-div-left' /></a>
-            </div>
-            <div className='margin'>
-              <a data-slide='next' href='#media'><div className='carousel-div-right' /></a>
-            </div>
-          </div>
-        </div>
-        <div className='carousel slide media-carousel' id='media'>
-          <div className='carousel-inner' name='slider'>
-            {items.map(this.renderField)}
-          </div>
-        </div>
+        <Slider ref={ c => this.slider = c } { ...settings }>
+          { items.map((item) => <div key={ item.sys.id } className='col-sm-12' ><SingleComponent data={ item } route={ route } key={ item.sys.id } /></div>)}
+        </Slider>
       </div>
     );
   }

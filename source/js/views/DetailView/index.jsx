@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import ScrollManager from 'scroll-manager';
 import PreviewComponent from '../../components/previewcomponent';
 import SingleResult from '../../components/single_result';
 import { initialResults, fetchResults, quickSearch, fetchFormParameters } from '../../actions/app';
@@ -12,6 +13,13 @@ const style = {
   xs: 'col-xs-6',
 };
 
+const options = {
+  duration: 0.5,
+  element: document.body,
+  ease: 'easeInOutCubic',
+};
+
+const scroller = new ScrollManager();
 
 @connect(state => ({
   initialData: state.app.initialData,
@@ -70,7 +78,7 @@ export default class DetailView extends Component {
     }
   }
   componentDidMount() {
-    window.scrollTo(0, 0);
+    scroller.scrollTop(options);
   }
   componentWillReceiveProps(nextProps) {
     switch (Object.keys(this.props.params)[0]) {
@@ -88,7 +96,7 @@ export default class DetailView extends Component {
     }
   }
   componentDidUpdate() {
-    window.scrollTo(0, 0);
+    scroller.scrollTop(options);
   }
   render() {
     if (!this.state.data) {
@@ -105,9 +113,7 @@ export default class DetailView extends Component {
         <div className='col col-sm-3'>
           <ControledForm data={ formParameters } style={ style } />
         </div>
-        <div className='col-sm-12'>
-          <PreviewComponent url={ this.props.params } data={ this.state.data } />
-        </div>
+        <PreviewComponent url={ this.props.params } data={ this.state.data } />
       </div>
     );
   }

@@ -1,50 +1,50 @@
 import * as contentful from 'contentful';
 
-export const TEST_ASYNC_ACTION_START = 'TEST_ASYNC_ACTION_START';
-export const TEST_ASYNC_ACTION_ERROR = 'TEST_ASYNC_ACTION_ERROR';
-export const TEST_ASYNC_ACTION_SUCCESS = 'TEST_ASYNC_ACTION_SUCCESS';
+export const ASYNC_ACTION_START = 'run_ASYNC_ACTION_START';
+export const ASYNC_ACTION_ERROR = 'run_ASYNC_ACTION_ERROR';
+export const ASYNC_ACTION_SUCCESS = 'run_ASYNC_ACTION_SUCCESS';
 export const FETCH_RESULTS = 'FETCH_RESULTS';
-export const TEST_INITIAL_ACTION_SUCCESS = 'TEST_INITIAL_ACTION_SUCCESS';
-export const TEST_FETCH_FORM_PARAMETERS = 'TEST_FETCH_FORM_PARAMETERS';
-export const TEST_QUICK_SEARCH = 'TEST_QUICK_SEARCH';
+export const INITIAL_ACTION_SUCCESS = 'run_INITIAL_ACTION_SUCCESS';
+export const FETCH_FORM_PARAMETERS = 'run_FETCH_FORM_PARAMETERS';
+export const QUICK_SEARCH = 'run_QUICK_SEARCH';
 
-function testAsyncStart() {
+function runAsyncStart() {
   return {
-    type: TEST_ASYNC_ACTION_START,
+    type: ASYNC_ACTION_START,
   };
 }
 
-function testAsyncSuccess(data) {
+function runAsyncSuccess(data) {
   return {
-    type: TEST_ASYNC_ACTION_SUCCESS,
+    type: ASYNC_ACTION_SUCCESS,
     data,
   };
 }
 
-function testAsyncError(error) {
+function runAsyncError(error) {
   return {
-    type: TEST_ASYNC_ACTION_ERROR,
+    type: ASYNC_ACTION_ERROR,
     error,
   };
 }
 
-function testInitialActionSuccess(data) {
+function runInitialActionSuccess(data) {
   return {
-    type: TEST_INITIAL_ACTION_SUCCESS,
+    type: INITIAL_ACTION_SUCCESS,
     data,
   };
 }
 
-function testFetchFormParametersSuccess(data) {
+function runFetchFormParametersSuccess(data) {
   return {
-    type: TEST_FETCH_FORM_PARAMETERS,
+    type: FETCH_FORM_PARAMETERS,
     data,
   };
 }
 
-function testQuickSearch(data) {
+function runQuickSearch(data) {
   return {
-    type: TEST_QUICK_SEARCH,
+    type: QUICK_SEARCH,
     data,
   };
 }
@@ -56,11 +56,11 @@ const client = contentful.createClient({
 
 export function fetchResults(URLparams) {
   return function (dispatch) {
-    dispatch(testAsyncStart());
+    dispatch(runAsyncStart());
     let { category, structure, area, service, priceFrom, priceTo, areaFrom, areaTo } = URLparams;
     const { city } = URLparams;
-    if (category === 'Sve_Kategorije') category = '';
-    structure = structure === 'Sve_strukture' ? '' : structure.replace(/_/g, '.');
+    if (category === 'Sve_kategorije') category = '';
+    structure = structure === 'Sve_strukture' ? '' : structure;
     if (category !== 'Stan') structure = '';
     area = area.replace(/-/g, ',').replace(/_/g, ' ');
     service = service.replace(/-/g, ',');
@@ -99,44 +99,44 @@ export function fetchResults(URLparams) {
           'fields.city.sys.id': cityId[city],
           'fields.structure': structure,
         })
-      .then((data) => dispatch(testAsyncSuccess(data)))
-      .catch(error => dispatch(testAsyncError(error)));
+      .then((data) => dispatch(runAsyncSuccess(data)))
+      .catch(error => dispatch(runAsyncError(error)));
       });
   };
 }
 
 export function initialResults() {
   return function (dispatch) {
-    dispatch(testAsyncStart());
+    dispatch(runAsyncStart());
     client.getEntries({
       include: 1,
       limit: 12,
       content_type: 'realty',
       order: '-sys.updatedAt',
-    }).then((data) => dispatch(testInitialActionSuccess(data)))
-      .catch(error => dispatch(testAsyncError(error)));
+    }).then((data) => dispatch(runInitialActionSuccess(data)))
+      .catch(error => dispatch(runAsyncError(error)));
   };
 }
 
 export function fetchFormParameters() {
   return function (dispatch) {
-    dispatch(testAsyncStart());
+    dispatch(runAsyncStart());
     client.getEntries({
       include: 1,
       content_type: 'formParamaters',
-    }).then((data) => dispatch(testFetchFormParametersSuccess(data)))
-      .catch(error => dispatch(testAsyncError(error)));
+    }).then((data) => dispatch(runFetchFormParametersSuccess(data)))
+      .catch(error => dispatch(runAsyncError(error)));
   };
 }
 
 export function quickSearch(type) {
   return function (dispatch) {
-    dispatch(testAsyncStart());
+    dispatch(runAsyncStart());
     client.getEntries({
       include: 1,
       content_type: 'realty',
       'fields.realtyType': type,
-    }).then((data) => dispatch(testQuickSearch(data)))
-      .catch(error => dispatch(testAsyncError(error)));
+    }).then((data) => dispatch(runQuickSearch(data)))
+      .catch(error => dispatch(runAsyncError(error)));
   };
 }

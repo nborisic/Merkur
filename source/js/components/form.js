@@ -14,8 +14,8 @@ class controledForm extends Component {
     super(props);
 
     this.state = {
-      urlComp: { category: '< Sve Kategorije >',
-        structure: '< Sve strukture >',
+      urlComp: { category: 'Sve kategorije',
+        structure: 'Sve strukture',
         area: [],
         areaFrom: 'NA',
         areaTo: 'NA',
@@ -70,9 +70,11 @@ class controledForm extends Component {
     });
   }
 
-  onTextInputChange(term, name) {
+  onTextInputChange(value, name) {
+    const urlComp = {};
+    urlComp[name] = value;
     const errorsInput = {};
-    if (/^[0-9\s]+$/.test(term) || term.length === 0) {
+    if (/^[0-9\s]+$/.test(value) || value.length === 0) {
       errorsInput[name] = '';
     } else {
       errorsInput[name] = 'Upisite broj';
@@ -80,6 +82,8 @@ class controledForm extends Component {
     this.setState({
       errorsInput: { ...this.state.errorsInput,
         ...errorsInput },
+      urlComp: { ...this.state.urlComp,
+        ...urlComp },
     });
   }
 
@@ -120,8 +124,8 @@ class controledForm extends Component {
       areaObj.map((obj) => { return allCityArea.push(obj.value); });
 
       // pretty url
-      category = category.replace(/<|>/g, '').trim().replace(/\s/g, '_');
-      structure = structure === '< Sve strukture >' ? structure.replace(/<|>/g, '').trim().replace(/\s/g, '_') : structure.replace(/\./, '_');
+      category = category.replace(/\s/g, '_');
+      structure = structure === 'Sve strukture' ? structure.replace(/\s/g, '_') : structure;
       service = service.join('-');
       area = area.length === 0 ? allCityArea : area;
       area = area.join('-').replace(/\s/g, '_');
@@ -188,7 +192,7 @@ class controledForm extends Component {
             <div className='form-group'>
               <label htmlFor='category' >Tip objekta</label>
               <StyledSelect
-                placeholder='< Sve kategorije >'
+                placeholder='Sve kategorije'
                 name='category'
                 value={ this.state.urlComp.category }
                 options={ categoryArray }
@@ -200,7 +204,7 @@ class controledForm extends Component {
             <div className='form-group'>
               <label htmlFor='city' >Gradovi</label>
               <StyledSelect
-                placeholder='< Izaberite grad >'
+                placeholder='Izaberite grad'
                 onChange={ value => this.selectChange(value, 'city') }
                 name='city'
                 value={ this.state.urlComp.city }
@@ -215,14 +219,14 @@ class controledForm extends Component {
               <TextInput
                 validate={ this.onTextInputChange }
                 name='priceFrom'
-                placeholder='< od >'
+                placeholder='od'
                 value={ this.state.urlComp.name }
                 error={ this.state.errorsInput.priceFrom }
               />
               <TextInput
                 validate={ this.onTextInputChange }
                 name='priceTo'
-                placeholder='< do >'
+                placeholder='do'
                 value={ this.state.urlComp.name }
                 error={ this.state.errorsInput.priceTo }
               />
@@ -239,12 +243,12 @@ class controledForm extends Component {
         <div className='row' >
           <div className={ `col ${ sm } ${ xs }` }>
             <div className='form-group'>
-              <label htmlFor='Structure' >Struktura stana</label>
+              <label htmlFor='Structure' >Struktura</label>
               <StyledSelect
                 placeholder='< Sve structure >'
                 name='structure'
                 value={ this.state.urlComp.structure }
-                disabled={ this.state.urlComp.category !== 'Stan' }
+                disabled={ this.state.urlComp.category !== 'Stan' && this.state.urlComp.category !== 'Kuća' }
                 options={ sturctureArray }
                 onChange={ value => this.selectChange(value, 'structure') }
               />
@@ -255,7 +259,7 @@ class controledForm extends Component {
               <label htmlFor='area' >Oblast </label>
               <StyledMultiSelect
                 name='area'
-                placeholder='< Sve oblasti >'
+                placeholder='Sve oblasti'
                 joinValues={ true }
                 multi={ true }
                 disabled={ !this.state.urlComp.city }
@@ -271,7 +275,7 @@ class controledForm extends Component {
               <TextInput
                 validate={ this.onTextInputChange }
                 name='areaFrom'
-                placeholder='< od >'
+                placeholder='od'
                 value={ this.state.urlComp.name }
                 error={ this.state.errorsInput.areaFrom }
               />
@@ -279,7 +283,7 @@ class controledForm extends Component {
                 validate={ this.onTextInputChange }
                 error={ this.state.errorsInput.areaTo }
                 name='areaTo'
-                placeholder='< do >'
+                placeholder='do'
                 value={ this.state.urlComp.name }
               />
             </div>

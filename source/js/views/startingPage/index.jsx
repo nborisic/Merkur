@@ -34,7 +34,7 @@ export default class startingPage extends Component {
     const { initialData, formParameters } = this.props;
     return (
       <div id='Pocetna'>
-        <img src='../../assets/img/V2a.jpg' alt='' />
+        <img src='../../assets/img/v3.jpg' alt='' />
         <div className='pgl-bg-light'>
           <div className='container'>
             <ControledForm data={ formParameters } style={ style } />
@@ -105,7 +105,6 @@ export default class startingPage extends Component {
             </div>
           </div>
         </div>
-      
       </div>
     );
   }

@@ -3,6 +3,24 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import SingleComponent from './single_prewiev';
 import ArrangeOptions from './arrange_options';
+import Pagination from './renderPagination';
+import { StyledSelect } from './styledComponents';
+
+
+const selectOptions = [
+  {
+    'label': '6',
+    'value': '6',
+  },
+  {
+    'label': '12',
+    'value': '12',
+  },
+  {
+    'label': '24',
+    'value': '24',
+  },
+];
 
 export default class PreviewComponent extends Component {
   static propTypes = {
@@ -15,10 +33,27 @@ export default class PreviewComponent extends Component {
     this.state = {
       arrange: '',
       arrangedItems: [],
+      numberToShow: '0',
+      numberPerPage: '6',
     };
     this.renderField = this.renderField.bind(this);
     this.arrangeArray = this.arrangeArray.bind(this);
+    this.setNumber = this.setNumber.bind(this);
   }
+
+  setNumber(number) {
+    this.setState({
+      numberToShow: number - 1,
+    });
+  }
+
+  selectChange(val) {
+    this.setState({
+      numberPerPage: val.value,
+      numberToShow: '0',
+    });
+  }
+
   arrangeArray(val) {
     const { items } = this.props.data;
     const arrangedItems = items.slice();
@@ -78,18 +113,39 @@ export default class PreviewComponent extends Component {
       </div>
     );
   }
+
   render() {
     if (!this.props) return (<div> <p>Učitava se stranica...</p></div>);
     const { items } = this.props.data;
     const displayItems = this.state.arrangedItems.length !== 0 ? this.state.arrangedItems : items;
+    const parts = _.chunk(displayItems, this.state.numberPerPage);
+    const noFileds = displayItems.length / this.state.numberPerPage;
+    const no = Math.ceil(noFileds);
     return (
       <div >
-        <div className='col col-sm-12'>
-          <div className='col col-sm-4'>
+        <div className='arrange col-sm-12 zeroPadding'>
+          <div className='col-xs-4 '>
             <ArrangeOptions arrangeSearch={ this.arrangeArray } value={ this.state.arrange } />
           </div>
+          <div className='col-xs-8 form-horizontal '>
+            <div className='form-group'>
+              <label className='control-label col-xs-9 ' htmlFor='numberPerPage'> Broj oglasa po strani:</label>
+              <div className='col-xs-3'>
+                <StyledSelect
+                  placeholder='6'
+                  onChange={ value => this.selectChange(value) }
+                  name='numberPerPage'
+                  value={ this.state.numberPerPage }
+                  options={ selectOptions }
+                />
+              </div>
+            </div>
+          </div>
+          <div className='col col-sm-12'>
+            <Pagination no={ no } setNumber={ this.setNumber } />
+          </div>
         </div>
-        { _.map(displayItems, this.renderField) }
+        { _.map(parts[this.state.numberToShow], this.renderField) }
       </div>
     );
   }

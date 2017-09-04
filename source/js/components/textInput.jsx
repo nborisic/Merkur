@@ -15,9 +15,9 @@ export default class Input extends Component {
     this.onInputChange = this.onInputChange.bind(this);
   }
   onInputChange(event) {
-    const text = event.target.value;
+    const value = event.target.value;
     const name = event.target.name;
-    this.props.validate(text, name);
+    this.props.validate(value, name);
   }
 
   render() {

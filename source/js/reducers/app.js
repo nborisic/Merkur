@@ -1,10 +1,10 @@
 import {
-  TEST_ASYNC_ACTION_START,
-  TEST_ASYNC_ACTION_ERROR,
-  TEST_ASYNC_ACTION_SUCCESS,
-  TEST_INITIAL_ACTION_SUCCESS,
-  TEST_FETCH_FORM_PARAMETERS,
-  TEST_QUICK_SEARCH,
+  ASYNC_ACTION_START,
+  ASYNC_ACTION_ERROR,
+  ASYNC_ACTION_SUCCESS,
+  INITIAL_ACTION_SUCCESS,
+  FETCH_FORM_PARAMETERS,
+  QUICK_SEARCH,
 } from 'actions/app';
 
 const initialState = {
@@ -18,37 +18,37 @@ const initialState = {
 
 const actionsMap = {
   // Async action
-  [TEST_ASYNC_ACTION_START]: (state) => {
+  [ASYNC_ACTION_START]: (state) => {
     return { ...state,
       asyncLoading: true,
       asyncError: null,
     };
   },
-  [TEST_ASYNC_ACTION_ERROR]: (state, action) => {
+  [ASYNC_ACTION_ERROR]: (state, action) => {
     return { ...state,
       asyncLoading: false,
       asyncError: action.data,
     };
   },
-  [TEST_ASYNC_ACTION_SUCCESS]: (state, action) => {
+  [ASYNC_ACTION_SUCCESS]: (state, action) => {
     return { ...state,
       asyncLoading: false,
       asyncData: action.data,
     };
   },
-  [TEST_INITIAL_ACTION_SUCCESS]: (state, action) => {
+  [INITIAL_ACTION_SUCCESS]: (state, action) => {
     return { ...state,
       asyncLoading: false,
       initialData: action.data,
     };
   },
-  [TEST_FETCH_FORM_PARAMETERS]: (state, action) => {
+  [FETCH_FORM_PARAMETERS]: (state, action) => {
     return { ...state,
       asyncLoading: false,
       formParameters: action.data,
     };
   },
-  [TEST_QUICK_SEARCH]: (state, action) => {
+  [QUICK_SEARCH]: (state, action) => {
     return { ...state,
       asyncLoading: false,
       quickSearch: action.data,
