@@ -22,7 +22,7 @@ export default class Input extends Component {
 
   render() {
     return (
-      <div className='form-group col col-xs-6' >
+      <div className='col col-xs-6' >
         <div className='field' >
           <input
             type='text'

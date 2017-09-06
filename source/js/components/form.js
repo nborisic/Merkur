@@ -213,6 +213,7 @@ class controledForm extends Component {
               <div >{this.state.errors.city ? this.state.errors.city : ''}</div>
             </div>
           </div>
+          <div className='clear' />
           <div className={ `col ${ sm } zeroPadding` }>
             <div className='form-group' >
               <label htmlFor='priceFrom' className='col col-xs-12'> {'Cena (€)'}</label>
@@ -232,6 +233,7 @@ class controledForm extends Component {
               />
             </div>
           </div>
+          <div className='clear' />
           <div ref={ (input) => this.selectInput = input } onChange={ this.onInputChange } className={ `col ${ sm } checkboxes` }>
             <div className='form-group'>
               { serviceArray.map((item) => <label htmlFor={ item } key={ item } >{item} <input type='checkbox' name='service' value={ item } /></label>)}
@@ -269,6 +271,7 @@ class controledForm extends Component {
               />
             </div>
           </div>
+          <div className='clear' />
           <div className={ `col ${ sm } zeroPadding` }>
             <div className='form-group'>
               <label htmlFor='areaFrom' className='col col-xs-12'> {'Površina (m2)'}</label>
@@ -288,6 +291,7 @@ class controledForm extends Component {
               />
             </div>
           </div>
+          <div className='clear' />
           <div className={ `col ${ sm } checkboxes` }>
             <button
               type='submit'

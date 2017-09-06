@@ -12,9 +12,9 @@ export default class Navbar extends Component {
       <header className='navbar-fixed-top'>
         <div id='top'>
           <div className='container'>
-            <p className='pull-left text-note hidden-xs' > Kontakt: <i className='fa fa-phone' /> (+381) 036 333 668</p>
-            <p className='pull-left text-note-ext hidden-sm hidden-xs'><i className='fa fa-phone' /> (+381) 063 7703 523</p>
-            <p className='pull-left text-note-ext hidden-sm hidden-md hidden-xs'><i className='fa fa-phone' /> (+381) 063 7703 524</p>
+            <p className='pull-left text-note hidden-xs' > Kontakt: <i className='fa' /><span className='glyphicon glyphicon-earphone' /> (+381) 036 333 668</p>
+            <p className='pull-left text-note-ext hidden-sm hidden-xs'><i className='fa' /><span className='glyphicon glyphicon-earphone' /> (+381) 063 7703 523</p>
+            <p className='pull-left text-note-ext hidden-sm hidden-md hidden-xs'><i className='fa' /><span className='glyphicon glyphicon-earphone' /> (+381) 063 7703 524</p>
           </div>
         </div>
         <nav className='navbar navbar-default pgl-navbar-main'>

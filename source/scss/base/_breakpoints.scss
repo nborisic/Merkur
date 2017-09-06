@@ -4,6 +4,12 @@ $breakpoint-lg: 992px !default;
 $breakpoint-mlg: 1200px !default;
 $breakpoint-xl: 2000px !default;
 
+@mixin max-md() {
+  @media (max-width: $breakpoint-md) {
+    @content;
+  }
+}
+
 @mixin sm() {
   @media (min-width: $breakpoint-sm) {
     @content;
@@ -33,7 +39,6 @@ $breakpoint-xl: 2000px !default;
     @content;
   }
 }
-
 
 @mixin mlg-lg() {
   @media only screen and (min-width: $breakpoint-lg) and (max-width: $breakpoint-mlg) {
@@ -75,4 +80,9 @@ $breakpoint-xl: 2000px !default;
   // IE8 filter
   $opacity-ie: ($opacity * 100);
   filter: #{alpha(opacity=$opacity-ie)};
+}
+@mixin bg-shadow {
+  @include transition(all .2s ease-in-out);
+  -webkit-box-shadow: 1px 1px 5px rgba(black,.2); // iOS <4.3 & Android <4.1
+  box-shadow: 1px 1px 5px rgba(black,.2);
 }
