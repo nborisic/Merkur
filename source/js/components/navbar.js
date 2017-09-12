@@ -20,15 +20,15 @@ export default class Navbar extends Component {
         <nav className='navbar navbar-default pgl-navbar-main'>
           <div className='container'>
             <div className='navbar-header'>
+              <Link className='logo' to='/' onClick={ this.props.onClick }>
+                <img src={ Logo } name='Pocetna' alt='' className='logo' />
+              </Link>
               <button type='button' className='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
                 <span className='sr-only'>Toggle navigation</span>
                 <span className='icon-bar' />
                 <span className='icon-bar' />
                 <span className='icon-bar' />
               </button>
-              <Link className='logo' to='/' onClick={ this.props.onClick }>
-                <img src={ Logo } name='Pocetna' alt='' className='logo' />
-              </Link>
             </div>
             <div className='navbar-collapse collapse width'>
               <ul className='nav navbar-nav pull-right' onClick={ this.props.onClick }>

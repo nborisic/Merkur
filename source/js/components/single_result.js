@@ -40,7 +40,7 @@ export default class SingleResult extends Component {
       }
 
       return (
-        <div key={ result.sys.id } className='pgl-bg-light'>
+        <div key={ result.sys.id } className='pgl-bg-single'>
           <Carousel pics={ result.fields.images } price={ price } adType={ result.fields.adType } />
           <div className='pgl-detail'>
             <div className='row'>

@@ -5,6 +5,7 @@ import Slider from '../../components/slider';
 import ControledForm from '../../components/form';
 import { initialResults, fetchFormParameters } from '../../actions/app';
 import QuickSearch from '../../components/quick_search';
+import StartingImg from '../../../assets/img/v3.jpg';
 
 
 const style = {
@@ -34,7 +35,7 @@ export default class startingPage extends Component {
     const { initialData, formParameters } = this.props;
     return (
       <div id='Pocetna'>
-        <img src='../../assets/img/v3.jpg' alt='' />
+        <img src={ StartingImg } alt='' />
         <div className='pgl-bg-light'>
           <div className='container'>
             <ControledForm data={ formParameters } style={ style } />

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export function SampleNextArrow(props) {
   const { onClick, position } = props;
@@ -19,3 +20,13 @@ export function SamplePrevArrow(props) {
     ><i className='icons-left' /></div>
   );
 }
+
+SamplePrevArrow.propTypes = {
+  onClick: PropTypes.func,
+  position: PropTypes.string,
+};
+
+SampleNextArrow.propTypes = {
+  onClick: PropTypes.func,
+  position: PropTypes.string,
+};

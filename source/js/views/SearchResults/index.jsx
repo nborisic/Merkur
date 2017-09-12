@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { Link } from 'react-router';
 import PreviewComponent from '../../components/previewcomponent';
 import { fetchResults, quickSearch, fetchFormParameters } from '../../actions/app';
 import ControledForm from '../../components/form';
@@ -55,7 +56,7 @@ export default class SearchResults extends Component {
     } = this.props;
     const data = Object.keys(this.props.params).length === 1 ? quickSearchData : asyncData;
     if (!data) return (<p>Učitava se stranica...</p>);
-    if (data.items.length === 0) return (<div className='no-resault container'> <h2>Nema rezultata za ovu pretragu</h2></div>);
+    if (data.items.length === 0) return (<div className='no-resault container'> <h2>Nema rezultata za ovu pretragu. <Link to='/'> Vrati se na početnu</Link></h2></div>);
     return (
       <div id='searchResults' className='container'>
         <div className='col col-sm-9'>

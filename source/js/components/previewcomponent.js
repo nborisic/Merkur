@@ -129,8 +129,8 @@ export default class PreviewComponent extends Component {
           </div>
           <div className='col-xs-8 form-horizontal '>
             <div className='form-group'>
-              <label className='control-label col-xs-9 ' htmlFor='numberPerPage'> Broj oglasa po strani:</label>
-              <div className='col-xs-3'>
+              <label className='control-label col-xs-9 col-md-10 ' htmlFor='numberPerPage'> Broj oglasa po strani:</label>
+              <div className='col-xs-3 col-md-2 zeroPadding'>
                 <StyledSelect
                   placeholder='6'
                   onChange={ value => this.selectChange(value) }
@@ -141,6 +141,7 @@ export default class PreviewComponent extends Component {
               </div>
             </div>
           </div>
+          <div className='clear' />
           <div className='col col-sm-12'>
             <Pagination no={ no } setNumber={ this.setNumber } />
           </div>

@@ -1,8 +1,15 @@
+$breakpoint-small-mobile: 380px !default;
 $breakpoint-sm: 500px !default;
-$breakpoint-md: 768px !default;
+$breakpoint-md: 767px !default;
 $breakpoint-lg: 992px !default;
 $breakpoint-mlg: 1200px !default;
 $breakpoint-xl: 2000px !default;
+
+@mixin mobile() {
+  @media (max-width: $breakpoint-small-mobile) {
+    @content;
+  }
+}
 
 @mixin max-md() {
   @media (max-width: $breakpoint-md) {

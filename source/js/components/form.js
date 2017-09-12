@@ -14,8 +14,8 @@ class controledForm extends Component {
     super(props);
 
     this.state = {
-      urlComp: { category: 'Sve kategorije',
-        structure: 'Sve strukture',
+      urlComp: { category: '',
+        structure: '',
         area: [],
         areaFrom: 'NA',
         areaTo: 'NA',
@@ -124,8 +124,8 @@ class controledForm extends Component {
       areaObj.map((obj) => { return allCityArea.push(obj.value); });
 
       // pretty url
-      category = category.replace(/\s/g, '_');
-      structure = structure === 'Sve strukture' ? structure.replace(/\s/g, '_') : structure;
+      category = category === '' ? 'Sve kategorije' : category.replace(/\s/g, '_');
+      structure = structure === '' ? 'Sve_strukture' : structure.replace(/\s/g, '_');
       service = service.join('-');
       area = area.length === 0 ? allCityArea : area;
       area = area.join('-').replace(/\s/g, '_');
@@ -247,7 +247,7 @@ class controledForm extends Component {
             <div className='form-group'>
               <label htmlFor='Structure' >Struktura</label>
               <StyledSelect
-                placeholder='< Sve structure >'
+                placeholder='Sve structure'
                 name='structure'
                 value={ this.state.urlComp.structure }
                 disabled={ this.state.urlComp.category !== 'Stan' && this.state.urlComp.category !== 'Kuća' }
