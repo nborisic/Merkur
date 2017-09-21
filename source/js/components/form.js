@@ -124,7 +124,7 @@ class controledForm extends Component {
       areaObj.map((obj) => { return allCityArea.push(obj.value); });
 
       // pretty url
-      category = category === '' ? 'Sve kategorije' : category.replace(/\s/g, '_');
+      category = category === '' ? 'Sve_kategorije' : category.replace(/\s/g, '_');
       structure = structure === '' ? 'Sve_strukture' : structure.replace(/\s/g, '_');
       service = service.join('-');
       area = area.length === 0 ? allCityArea : area;
