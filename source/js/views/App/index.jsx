@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ScrollManager from 'scroll-manager';
+import { browserHistory } from 'react-router';
 import Navbar from '../../components/navbar';
 import GoogleMap from '../../components/google_map';
 import Mail from '../../components/mail';
@@ -10,24 +11,40 @@ export default class App extends Component {
     children: PropTypes.object,
   }
 
+  constructor() {
+    super();
+
+    this.listenEvents = this.listenEvents.bind(this);
+
+    this.state = {
+      scrollElement: '',
+    };
+  }
   componentDidMount() {
     window.scrollTo(0, 0);
   }
 
+  componentDidUpdate() {
+    if (browserHistory.getCurrentLocation().pathname === '/') {
+      setTimeout(() => {
+        const offset = document.getElementById(this.state.scrollElement);
+        const options = {
+          duration: 0.35,
+          to: offset.offsetTop - 140,
+          element: document.body,
+          ease: 'eeaseInOutCubic',
+        };
+        const scroller = new ScrollManager();
+        scroller.scrollTo(options);
+      }, 200); // i sa 0 radi kako treba, ali za svaki slucaj
+    }
+  }
+
   listenEvents(e) {
     const { name } = e.target;
-    setTimeout(() => {
-      const offset = document.getElementById(name);
-      const options = {
-        duration: 0.35,
-        to: offset.offsetTop - 140,
-        element: document.body,
-        ease: 'eeaseInOutCubic',
-      };
-      const scroller = new ScrollManager();
-      scroller.scrollTo(options);
-    }, 500
-    );
+    this.setState({
+      scrollElement: name,
+    });
   }
 
   render() {
