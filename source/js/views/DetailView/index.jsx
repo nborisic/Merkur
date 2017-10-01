@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import ScrollManager from 'scroll-manager';
 import PreviewComponent from '../../components/previewcomponent';
 import SingleResult from '../../components/single_result';
 import { initialResults, fetchResults, quickSearch, fetchFormParameters } from '../../actions/app';
@@ -12,15 +11,6 @@ const style = {
   sm: 'col-sm-12',
   xs: 'col-xs-6',
 };
-
-const options = {
-  duration: 0.5,
-  element: document.body,
-  ease: 'easeInOutCubic',
-};
-
-const scroller = new ScrollManager();
-
 @connect(state => ({
   initialData: state.app.initialData,
   asyncData: state.app.asyncData,
@@ -78,7 +68,7 @@ export default class DetailView extends Component {
     }
   }
   componentDidMount() {
-    scroller.scrollTop(options);
+    window.scrollTo(0, 0);
   }
   componentWillReceiveProps(nextProps) {
     switch (Object.keys(this.props.params)[0]) {
@@ -96,7 +86,7 @@ export default class DetailView extends Component {
     }
   }
   componentDidUpdate() {
-    scroller.scrollTop(options);
+    $("body, html").animate({scrollTop: 0}, 'slow');
   }
   render() {
     if (!this.state.data) {

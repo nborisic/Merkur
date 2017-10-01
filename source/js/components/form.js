@@ -137,6 +137,10 @@ class controledForm extends Component {
     );
       browserHistory.push(`/${ category }/${ structure }/${ service }/${ city }/${ area }/${ priceFrom }/${ priceTo }/${ areaFrom }/${ areaTo }`);
     }
+    else {
+      $('html, body').animate({scrollTop: $('.search-form').offset().top - 140 }, 500);
+      $('#search-button').toggleClass('animate-active');
+    }
   }
 
   multiselectChange(val) {
@@ -186,7 +190,7 @@ class controledForm extends Component {
     const areaArray = this.props.data.items[0].fields.parameters[`${ cityArea }AreaArray`];
     const { xs, sm } = this.props.style;
     return (
-      <form onSubmit={ this.onFormSubmit } >
+      <form className='search-form' onSubmit={ this.onFormSubmit } >
         <div className='row helping' >
           <div className={ `col ${ sm } ${ xs }` }>
             <div className='form-group'>
@@ -210,7 +214,7 @@ class controledForm extends Component {
                 value={ this.state.urlComp.city }
                 options={ cityArray }
               />
-              <div >{this.state.errors.city ? this.state.errors.city : ''}</div>
+              <div className='error-text' >{this.state.errors.city ? this.state.errors.city : ''}</div>
             </div>
           </div>
           <div className='clear' />
@@ -237,7 +241,7 @@ class controledForm extends Component {
           <div ref={ (input) => this.selectInput = input } onChange={ this.onInputChange } className={ `col ${ sm } checkboxes` }>
             <div className='form-group'>
               { serviceArray.map((item) => <label htmlFor={ item } key={ item } >{item} <input type='checkbox' name='service' value={ item } /></label>)}
-              <div> {this.state.errors.service ? this.state.errors.service : ''}</div>
+              <div className='error-text'> {this.state.errors.service ? this.state.errors.service : ''}</div>
             </div>
           </div>
         </div>
@@ -294,6 +298,7 @@ class controledForm extends Component {
           <div className='clear' />
           <div className={ `col ${ sm } checkboxes` }>
             <button
+              id='search-button'
               type='submit'
               value='submit'
               className='btn btn-primary btn-block'

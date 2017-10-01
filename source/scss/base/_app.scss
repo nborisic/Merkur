@@ -883,3 +883,27 @@ input[type="checkbox"] {
     border-color: $black;
   }
 }
+
+.error-text {
+  font-weight: bold;
+  color: red;
+}
+
+.animate-active {
+  -webkit-animation-name: flash;
+  -webkit-animation-duration: 0.4s; 
+  animation-name: flash;
+  -webkit-animation-iteration-count: 3;
+  animation-iteration-count: 3;
+  animation-duration: 0.4s;
+}
+
+@-webkit-keyframes flash {
+    from {background-color: $primary-color;}
+    to {background-color: red;}
+}
+
+@keyframes flash {
+    0%, 49% {background-color: red;}
+    50%, 100% {background-color: $primary-color;}
+}

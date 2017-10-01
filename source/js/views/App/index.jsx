@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ScrollManager from 'scroll-manager';
 import { browserHistory } from 'react-router';
 import Navbar from '../../components/navbar';
 import GoogleMap from '../../components/google_map';
@@ -26,17 +25,7 @@ export default class App extends Component {
 
   componentDidUpdate() {
     if (browserHistory.getCurrentLocation().pathname === '/') {
-      setTimeout(() => {
-        const offset = document.getElementById(this.state.scrollElement);
-        const options = {
-          duration: 0.35,
-          to: offset.offsetTop - 140,
-          element: document.body,
-          ease: 'eeaseInOutCubic',
-        };
-        const scroller = new ScrollManager();
-        scroller.scrollTo(options);
-      }, 200); // i sa 0 radi kako treba, ali za svaki slucaj
+       setTimeout(()=>{$("html, body").animate({scrollTop: $("#"+this.state.scrollElement).offset().top - 140 }, 500);},300);
     }
   }
 
